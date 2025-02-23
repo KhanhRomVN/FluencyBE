@@ -1,0 +1,93 @@
+-- Drop all triggers
+DROP TRIGGER IF EXISTS trigger_grammar_questions_version_insert ON grammar_questions;
+DROP TRIGGER IF EXISTS trigger_grammar_questions_version_update ON grammar_questions;
+DROP TRIGGER IF EXISTS trigger_grammar_questions_version_delete ON grammar_questions;
+
+DROP TRIGGER IF EXISTS trigger_grammar_fill_in_the_blank_questions_version_insert ON grammar_fill_in_the_blank_questions;
+DROP TRIGGER IF EXISTS trigger_grammar_fill_in_the_blank_questions_version_update ON grammar_fill_in_the_blank_questions;
+DROP TRIGGER IF EXISTS trigger_grammar_fill_in_the_blank_questions_version_delete ON grammar_fill_in_the_blank_questions;
+
+DROP TRIGGER IF EXISTS trigger_grammar_fill_in_the_blank_answers_version_insert ON grammar_fill_in_the_blank_answers;
+DROP TRIGGER IF EXISTS trigger_grammar_fill_in_the_blank_answers_version_update ON grammar_fill_in_the_blank_answers;
+DROP TRIGGER IF EXISTS trigger_grammar_fill_in_the_blank_answers_version_delete ON grammar_fill_in_the_blank_answers;
+
+DROP TRIGGER IF EXISTS trigger_grammar_choice_one_questions_version_insert ON grammar_choice_one_questions;
+DROP TRIGGER IF EXISTS trigger_grammar_choice_one_questions_version_update ON grammar_choice_one_questions;
+DROP TRIGGER IF EXISTS trigger_grammar_choice_one_questions_version_delete ON grammar_choice_one_questions;
+
+DROP TRIGGER IF EXISTS trigger_grammar_choice_one_options_version_insert ON grammar_choice_one_options;
+DROP TRIGGER IF EXISTS trigger_grammar_choice_one_options_version_update ON grammar_choice_one_options;
+DROP TRIGGER IF EXISTS trigger_grammar_choice_one_options_version_delete ON grammar_choice_one_options;
+
+DROP TRIGGER IF EXISTS trigger_grammar_error_identifications_version_insert ON grammar_error_identifications;
+DROP TRIGGER IF EXISTS trigger_grammar_error_identifications_version_update ON grammar_error_identifications;
+DROP TRIGGER IF EXISTS trigger_grammar_error_identifications_version_delete ON grammar_error_identifications;
+
+DROP TRIGGER IF EXISTS trigger_grammar_sentence_transformations_version_insert ON grammar_sentence_transformations;
+DROP TRIGGER IF EXISTS trigger_grammar_sentence_transformations_version_update ON grammar_sentence_transformations;
+DROP TRIGGER IF EXISTS trigger_grammar_sentence_transformations_version_delete ON grammar_sentence_transformations;
+
+DROP TRIGGER IF EXISTS update_grammar_questions_updated_at ON grammar_questions;
+DROP TRIGGER IF EXISTS update_grammar_fill_in_the_blank_questions_updated_at ON grammar_fill_in_the_blank_questions;
+DROP TRIGGER IF EXISTS update_grammar_fill_in_the_blank_answers_updated_at ON grammar_fill_in_the_blank_answers;
+DROP TRIGGER IF EXISTS update_grammar_choice_one_questions_updated_at ON grammar_choice_one_questions;
+DROP TRIGGER IF EXISTS update_grammar_choice_one_options_updated_at ON grammar_choice_one_options;
+DROP TRIGGER IF EXISTS update_grammar_error_identifications_updated_at ON grammar_error_identifications;
+DROP TRIGGER IF EXISTS update_grammar_sentence_transformations_updated_at ON grammar_sentence_transformations;
+
+-- Drop all indexes
+DROP INDEX IF EXISTS idx_grammar_questions_type;
+DROP INDEX IF EXISTS idx_grammar_questions_topic;
+
+DROP INDEX IF EXISTS idx_grammar_fill_blank_question_id;
+DROP INDEX IF EXISTS idx_grammar_fill_blank_answers_question_id;
+
+DROP INDEX IF EXISTS idx_grammar_choice_one_question_id;
+DROP INDEX IF EXISTS idx_grammar_choice_one_options;
+DROP INDEX IF EXISTS idx_grammar_one_correct_option_per_question;
+
+DROP INDEX IF EXISTS idx_grammar_error_identification_question_id;
+DROP INDEX IF EXISTS idx_grammar_error_identification_text;
+
+DROP INDEX IF EXISTS idx_grammar_sentence_transformation_question_id;
+DROP INDEX IF EXISTS idx_grammar_sentence_transformation_text;
+
+-- Drop constraints
+ALTER TABLE IF EXISTS grammar_fill_in_the_blank_questions
+DROP CONSTRAINT IF EXISTS unique_grammar_fill_in_the_blank_question;
+
+ALTER TABLE IF EXISTS grammar_choice_one_questions
+DROP CONSTRAINT IF EXISTS unique_grammar_choice_one_question;
+
+ALTER TABLE IF EXISTS grammar_choice_one_options
+DROP CONSTRAINT IF EXISTS unique_choice_one_option_per_question;
+
+ALTER TABLE IF EXISTS grammar_error_identifications
+DROP CONSTRAINT IF EXISTS unique_error_identification_per_question;
+
+ALTER TABLE IF EXISTS grammar_sentence_transformations
+DROP CONSTRAINT IF EXISTS unique_sentence_transformation_per_question;
+
+-- Drop all tables (in correct order due to dependencies)
+DROP TABLE IF EXISTS grammar_sentence_transformations CASCADE;
+DROP TABLE IF EXISTS grammar_error_identifications CASCADE;
+DROP TABLE IF EXISTS grammar_choice_one_options CASCADE;
+DROP TABLE IF EXISTS grammar_choice_one_questions CASCADE;
+DROP TABLE IF EXISTS grammar_fill_in_the_blank_answers CASCADE;
+DROP TABLE IF EXISTS grammar_fill_in_the_blank_questions CASCADE;
+DROP TABLE IF EXISTS grammar_questions CASCADE;
+
+-- Drop ENUM type
+DROP TYPE IF EXISTS grammar_question_type;
+
+-- Drop functions
+DROP FUNCTION IF EXISTS grammar_question_version_update();
+
+-- Clear all comments
+COMMENT ON TABLE grammar_questions IS NULL;
+COMMENT ON TABLE grammar_fill_in_the_blank_questions IS NULL;
+COMMENT ON TABLE grammar_choice_one_questions IS NULL;
+COMMENT ON TABLE grammar_error_identifications IS NULL;
+COMMENT ON TABLE grammar_sentence_transformations IS NULL;
+COMMENT ON COLUMN grammar_questions.version IS NULL;
+COMMENT ON COLUMN grammar_questions.id IS NULL;

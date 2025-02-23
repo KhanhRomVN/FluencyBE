@@ -1,0 +1,75 @@
+-- Drop all triggers
+DROP TRIGGER IF EXISTS trigger_listening_questions_version_insert ON listening_questions;
+DROP TRIGGER IF EXISTS trigger_listening_questions_version_update ON listening_questions;
+DROP TRIGGER IF EXISTS trigger_listening_questions_version_delete ON listening_questions;
+DROP TRIGGER IF EXISTS trigger_listening_fill_in_the_blank_questions_version_insert ON listening_fill_in_the_blank_questions;
+DROP TRIGGER IF EXISTS trigger_listening_fill_in_the_blank_questions_version_update ON listening_fill_in_the_blank_questions;
+DROP TRIGGER IF EXISTS trigger_listening_fill_in_the_blank_questions_version_delete ON listening_fill_in_the_blank_questions;
+DROP TRIGGER IF EXISTS trigger_listening_fill_in_the_blank_answers_version_insert ON listening_fill_in_the_blank_answers;
+DROP TRIGGER IF EXISTS trigger_listening_fill_in_the_blank_answers_version_update ON listening_fill_in_the_blank_answers;
+DROP TRIGGER IF EXISTS trigger_listening_fill_in_the_blank_answers_version_delete ON listening_fill_in_the_blank_answers;
+DROP TRIGGER IF EXISTS trigger_listening_choice_one_questions_version_insert ON listening_choice_one_questions;
+DROP TRIGGER IF EXISTS trigger_listening_choice_one_questions_version_update ON listening_choice_one_questions;
+DROP TRIGGER IF EXISTS trigger_listening_choice_one_questions_version_delete ON listening_choice_one_questions;
+DROP TRIGGER IF EXISTS trigger_listening_choice_one_options_version_insert ON listening_choice_one_options;
+DROP TRIGGER IF EXISTS trigger_listening_choice_one_options_version_update ON listening_choice_one_options;
+DROP TRIGGER IF EXISTS trigger_listening_choice_one_options_version_delete ON listening_choice_one_options;
+DROP TRIGGER IF EXISTS trigger_listening_choice_multi_questions_version_insert ON listening_choice_multi_questions;
+DROP TRIGGER IF EXISTS trigger_listening_choice_multi_questions_version_update ON listening_choice_multi_questions;
+DROP TRIGGER IF EXISTS trigger_listening_choice_multi_questions_version_delete ON listening_choice_multi_questions;
+DROP TRIGGER IF EXISTS trigger_listening_choice_multi_options_version_insert ON listening_choice_multi_options;
+DROP TRIGGER IF EXISTS trigger_listening_choice_multi_options_version_update ON listening_choice_multi_options;
+DROP TRIGGER IF EXISTS trigger_listening_choice_multi_options_version_delete ON listening_choice_multi_options;
+DROP TRIGGER IF EXISTS trigger_listening_map_labellings_version_insert ON listening_map_labellings;
+DROP TRIGGER IF EXISTS trigger_listening_map_labellings_version_update ON listening_map_labellings;
+DROP TRIGGER IF EXISTS trigger_listening_map_labellings_version_delete ON listening_map_labellings;
+DROP TRIGGER IF EXISTS trigger_listening_matchings_version_insert ON listening_matchings;
+DROP TRIGGER IF EXISTS trigger_listening_matchings_version_update ON listening_matchings;
+DROP TRIGGER IF EXISTS trigger_listening_matchings_version_delete ON listening_matchings;
+
+-- Drop all indexes
+DROP INDEX IF EXISTS idx_listening_questions_type;
+DROP INDEX IF EXISTS idx_listening_questions_topic;
+DROP INDEX IF EXISTS idx_listening_fill_blank_question_id;
+DROP INDEX IF EXISTS idx_listening_fill_blank_answers_question_id;
+DROP INDEX IF EXISTS idx_listening_one_correct_option_per_question;
+DROP INDEX IF EXISTS idx_listening_choice_one_options;
+DROP INDEX IF EXISTS idx_listening_choice_one_correct_options;
+DROP INDEX IF EXISTS idx_listening_choice_multi_question;
+DROP INDEX IF EXISTS idx_listening_choice_multi_options;
+DROP INDEX IF EXISTS idx_listening_choice_multi_correct_options;
+DROP INDEX IF EXISTS idx_listening_map_labelling_question_id;
+DROP INDEX IF EXISTS idx_listening_map_labelling_question;
+DROP INDEX IF EXISTS idx_listening_map_labelling_answer;
+DROP INDEX IF EXISTS idx_listening_matching_question_id;
+DROP INDEX IF EXISTS idx_listening_matching_question;
+DROP INDEX IF EXISTS idx_listening_matching_answer;
+
+-- Drop constraints
+ALTER TABLE IF EXISTS listening_matchings
+DROP CONSTRAINT IF EXISTS unique_question_per_labelling,
+DROP CONSTRAINT IF EXISTS unique_answer_per_labelling;
+
+ALTER TABLE IF EXISTS listening_choice_multi_options
+DROP CONSTRAINT IF EXISTS unique_choice_multi_option_per_question;
+
+ALTER TABLE IF EXISTS listening_choice_one_options 
+DROP CONSTRAINT IF EXISTS unique_choice_one_option_per_question;
+
+ALTER TABLE IF EXISTS listening_fill_in_the_blank_questions
+DROP CONSTRAINT IF EXISTS unique_listening_fill_in_the_blank_question;
+
+-- Drop all tables (with CASCADE)
+DROP TABLE IF EXISTS listening_fill_in_the_blank_answers CASCADE;
+DROP TABLE IF EXISTS listening_fill_in_the_blank_questions CASCADE;
+DROP TABLE IF EXISTS listening_choice_one_options CASCADE;
+DROP TABLE IF EXISTS listening_choice_one_questions CASCADE;
+DROP TABLE IF EXISTS listening_choice_multi_options CASCADE;
+DROP TABLE IF EXISTS listening_choice_multi_questions CASCADE;
+DROP TABLE IF EXISTS listening_map_labellings CASCADE;
+DROP TABLE IF EXISTS listening_matchings CASCADE;
+DROP TABLE IF EXISTS listening_questions CASCADE;
+
+-- Drop all functions
+DROP FUNCTION IF EXISTS update_updated_at();
+DROP FUNCTION IF EXISTS listening_question_version_update();
